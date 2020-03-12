@@ -35,6 +35,15 @@
     <ClInclude Include="ShaderLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CGameManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.fs">

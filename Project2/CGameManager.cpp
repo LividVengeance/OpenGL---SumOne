@@ -1,51 +1,27 @@
 #pragma once
 
-#include <glew.h>
-#include <freeglut.h>
-#include <SOIL.h>
-#include <iostream>
+#include "CGameManager.h"
 
-#include "glm.hpp"
-#include "gtc/matrix_transform.hpp"
-#include "gtc/type_ptr.hpp"
-
-#include "ShaderLoader.h"
-#include "CCamera.cpp"
-#include "CObject.cpp"
-
-
-using namespace glm;
-using namespace std;
-
-CGameManager* globalPointerGM;
-
-
-class CGameManager
-{
-public:
-	CGameManager(int argc, char** argv);
-	~CGameManager();
-
-	void Update();
-	void Render();
-	void ManagerMain();
-	GLint GenerateTextures();
-
-private:
-	GLuint VBO;
-	GLuint EBO;
-	GLuint VAO;
-
-	GLuint texture;
-	GLuint texture1;
-
-	GLfloat currentTime;
-	GLint program;
-};
 
 CGameManager::CGameManager(int argc, char** argv)
 {
 	globalPointerGM = this;
+
+	GLfloat vertices[]{
+		// Position				// Color			// Texture Coords
+		 0.33f,  1.0f,  0.0f,	1.0f, 1.0f, 1.0f,	0.33f,  1.0f,	// Top left
+		 0.66f,  1.0f,  0.0f,	1.0f, 1.0f, 1.0f,	0.66f,  1.0f,	// Mid left
+		 1.0f,   0.5f,  0.0f,	1.0f, 1.0f, 1.0f,	1.0f,   0.5f,	// Bot left
+		 0.66f,  0.0f,  0.0f,	1.0f, 1.0f, 1.0f,	0.66f,  0.0f,	// Top Right
+		 0.33f,  0.0f,  0.0f,	1.0f, 1.0f, 1.0f,	0.33f,  0.0f,	// Mid Right
+		 0.0f,   0.5f,  0.0f,	1.0f, 1.0f, 1.0f,	0.0f,   0.5f,	// Bot Right
+	};
+	GLuint indices[] = {
+		4, 1, 0,	// First Triangle
+		4, 3, 1,	// Second Triangle
+		3, 2, 1,	// Third Triangle
+		5, 4, 0, 	// Fourth Triangle
+	};
 
 	// Setup and create at glut controlled window
 	glutInit(&argc, argv);
@@ -72,21 +48,7 @@ CGameManager::CGameManager(int argc, char** argv)
 	program = ShaderLoader::CreateProgram("Resources/Shaders/Basic.vs",
 		"Resources/Shaders/Basic.fs");
 
-	GLfloat vertices[]{
-		// Position				// Color			// Texture Coords
-		 0.33f,  1.0f,  0.0f,	1.0f, 1.0f, 1.0f,	0.33f,  1.0f,	// Top left
-		 0.66f,  1.0f,  0.0f,	1.0f, 1.0f, 1.0f,	0.66f,  1.0f,	// Mid left
-		 1.0f,   0.5f,  0.0f,	1.0f, 1.0f, 1.0f,	1.0f,   0.5f,	// Bot left
-		 0.66f,  0.0f,  0.0f,	1.0f, 1.0f, 1.0f,	0.66f,  0.0f,	// Top Right
-		 0.33f,  0.0f,  0.0f,	1.0f, 1.0f, 1.0f,	0.33f,  0.0f,	// Mid Right
-		 0.0f,   0.5f,  0.0f,	1.0f, 1.0f, 1.0f,	0.0f,   0.5f,	// Bot Right
-	};
-	GLuint indices[] = {
-		4, 1, 0,	// First Triangle
-		4, 3, 1,	// Second Triangle
-		3, 2, 1,	// Third Triangle
-		5, 4, 0, 	// Fourth Triangle
-	};
+	
 
 
 	glGenVertexArrays(1, &VAO);
@@ -135,6 +97,7 @@ CGameManager::CGameManager(int argc, char** argv)
 
 	GLuint translateLoc = glGetUniformLocation(program, "translation");
 	glUniformMatrix4fv(translateLoc, 1, GL_FALSE, glm::value_ptr(translationMatrix));
+
 }
 
 CGameManager::~CGameManager()
@@ -251,7 +214,7 @@ GLint CGameManager::GenerateTextures()
 
 void CGameManager::ManagerMain()
 {
-	// Register callbacks
+	/// Register callbacks
 	glutDisplayFunc(RenderRedirect);
 	glutIdleFunc(UpdateRedirect);
 	GenerateTextures();
@@ -260,10 +223,12 @@ void CGameManager::ManagerMain()
 
 void RenderRedirect()
 {
+	/// Allows glut to look at func in class
 	globalPointerGM->Render();
 }
 
 void UpdateRedirect()
 {
+	/// Allows glut to look at func in class
 	globalPointerGM->Update();
 }

@@ -149,6 +149,9 @@
     <ClCompile Include="ShaderLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CGameManager.h" />
+    <ClInclude Include="CObject.h" />
     <ClInclude Include="ShaderLoader.h" />
   </ItemGroup>
   <ItemGroup>

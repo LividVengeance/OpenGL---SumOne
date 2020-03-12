@@ -9,19 +9,18 @@
 #include "gtc/matrix_transform.hpp"
 #include "gtc/type_ptr.hpp"
 
+#include "CCamera.h"
+#include "CGameManager.h"
+#include "CObject.h"
 #include "ShaderLoader.h"
-#include "CObject.cpp"
-#include "CGameManager.cpp"
 
-using namespace glm;
+
+
 
 int main(int argc, char** argv)
 {
-	CGameManager mainGameManager(int argc, char** argv);
+	CGameManager mainGameManager(argc, argv);
 	mainGameManager.ManagerMain();
 
 	return(0);
 }
-
-
-
