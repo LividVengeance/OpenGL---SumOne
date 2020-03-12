@@ -15,8 +15,6 @@
 #include "ShaderLoader.h"
 
 
-
-
 int main(int argc, char** argv)
 {
 	CGameManager mainGameManager(argc, argv);

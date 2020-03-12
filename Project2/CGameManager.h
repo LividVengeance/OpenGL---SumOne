@@ -13,7 +13,7 @@
 #include "CObject.h"
 #include "ShaderLoader.h"
 
-CGameManager* globalPointerGM;
+
 
 using namespace glm;
 using namespace std;

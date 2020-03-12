@@ -2,6 +2,20 @@
 
 #include "CGameManager.h"
 
+CGameManager* globalPointerGM;
+
+
+void RenderRedirect()
+{
+	/// Allows glut to look at func in class
+	globalPointerGM->Render();
+}
+
+void UpdateRedirect()
+{
+	/// Allows glut to look at func in class
+	globalPointerGM->Update();
+}
 
 CGameManager::CGameManager(int argc, char** argv)
 {
@@ -47,8 +61,6 @@ CGameManager::CGameManager(int argc, char** argv)
 
 	program = ShaderLoader::CreateProgram("Resources/Shaders/Basic.vs",
 		"Resources/Shaders/Basic.fs");
-
-	
 
 
 	glGenVertexArrays(1, &VAO);
@@ -120,41 +132,55 @@ void CGameManager::Render()
 
 	glBindVertexArray(VAO);		// Bind VAO
 
+	//		Ceate First Hex		//
 	CObject objOne;
-
 	// Translation Matrix
 	vec3 objPosition = vec3(250.0f, 250.0f, 0.0f);
 	mat4 translationMatrix = objOne.Translation(objPosition);
-
 	// Rotation Matrix
 	vec3 rotationAxis = vec3(0.0f, 0.0f, 1.0f);
 	float angle = 180.0f;
 	mat4 rotationMatrix = objOne.Rotation(rotationAxis, angle);
-
 	// Scale Matrix
 	float scaleAmount = 1000.0f;
 	vec3 objScale = vec3(0.5f, 0.5f, 0.5f);
 	mat4 scaleMatrix = objOne.Scale(objScale, scaleAmount);
-
 	// Create model matrix to combine them
 	mat4 model = objOne.Combine(translationMatrix, rotationMatrix, scaleMatrix);
 
 	GLuint modelLoc = glGetUniformLocation(program, "model");
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
+	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);			// Draw First Hex
 
+	//		Ceate Second Hex		//
+	CObject objTwo;
+	// Translation Matrix
+	vec3 objPosition1 = vec3(350.0f, 150.0f, 0.0f);
+	mat4 translationMatrix1 = objTwo.Translation(objPosition1);
+	// Rotation Matrix
+	vec3 rotationAxis1 = vec3(0.0f, 0.0f, 1.0f);
+	float angle1 = 90.0f;
+	mat4 rotationMatrix1 = objTwo.Rotation(rotationAxis1, angle1);
+	// Scale Matrix
+	float scaleAmount1 = 500.0f;
+	vec3 objScale1 = vec3(0.5f, 0.5f, 0.5f);
+	mat4 scaleMatrix1 = objTwo.Scale(objScale1, scaleAmount1);
+	// Create model matrix to combine them
+	mat4 model1 = objTwo.Combine(translationMatrix1, rotationMatrix1, scaleMatrix1);
 
-	// View Matrix
+	GLuint modelLoc1 = glGetUniformLocation(program, "model");
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model1));
+	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);			// Draw Second Hex
+
+	//		Create Camera One		//
 	CCamera CamOne(program);
 	mat4 view = CamOne.CameraView();
-
 
 	GLuint viewLoc = glGetUniformLocation(program, "view");
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, value_ptr(view));
 
 	GLint currentTimeLoc = glGetUniformLocation(program, "currentTime");
 	glUniform1f(currentTimeLoc, currentTime);
-
-	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);		// Unbinding VAO
 	glUseProgram(0);
@@ -219,16 +245,4 @@ void CGameManager::ManagerMain()
 	glutIdleFunc(UpdateRedirect);
 	GenerateTextures();
 	glutMainLoop();
-}
-
-void RenderRedirect()
-{
-	/// Allows glut to look at func in class
-	globalPointerGM->Render();
-}
-
-void UpdateRedirect()
-{
-	/// Allows glut to look at func in class
-	globalPointerGM->Update();
 }
