@@ -27,8 +27,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/ajbar/source/repos/OpenGL-Exercises/Project2/Dependencies/glm/out/build/x64-Debug",
-		"source" : "C:/Users/ajbar/source/repos/OpenGL-Exercises/Project2/Dependencies/glm"
+		"build" : "D:/Users/andrew.bar8456/source/repos/OpenGL---SumOne2/Project2/Dependencies/glm/out/build/x64-Debug",
+		"source" : "D:/Users/andrew.bar8456/source/repos/OpenGL---SumOne2/Project2/Dependencies/glm"
 	},
 	"version" : 
 	{

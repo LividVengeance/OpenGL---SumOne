@@ -1,22 +1,41 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2020 Media Design School
+//
+// File Name   : GameManager.cpp
+// Description : Game Manager class
+// Author      : Andrew Barnes
+// Mail        : andrew.bar8456@mediadesign.school.nz
+//
 #pragma once
 
 #include "CGameManager.h"
 
 CGameManager* globalPointerGM;
 
-
+/// Allows glut to look at func in class
+/// Argument: Nothing
+/// Return Type: Void
 void RenderRedirect()
 {
-	/// Allows glut to look at func in class
 	globalPointerGM->Render();
 }
 
+/// Allows glut to look at func in class
+/// Argument: Nothing
+/// Return Type: Void
 void UpdateRedirect()
 {
-	/// Allows glut to look at func in class
 	globalPointerGM->Update();
 }
 
+/// Constructor for CGameManager
+/// Argument: Program pointer
+/// Return Type: Void
 CGameManager::CGameManager(int argc, char** argv)
 {
 	globalPointerGM = this;
@@ -110,12 +129,21 @@ CGameManager::CGameManager(int argc, char** argv)
 	GLuint translateLoc = glGetUniformLocation(program, "translation");
 	glUniformMatrix4fv(translateLoc, 1, GL_FALSE, glm::value_ptr(translationMatrix));
 
+	currentTime = 0.0f;
+	texture = 0;
+	texture1 = 0;
 }
 
+/// Deconstructor for CGameManager
+/// Argument: Void
+/// Return Type: Void
 CGameManager::~CGameManager()
 {
 }
 
+/// Runs the render
+/// Argument: Void
+/// Return Type: Void
 void CGameManager::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -188,15 +216,21 @@ void CGameManager::Render()
 	glutSwapBuffers();
 }
 
+/// Runs the update
+/// Argument: Void
+/// Return Type: Void
 void CGameManager::Update()
 {
 	// Update information
-	currentTime = glutGet(GLUT_ELAPSED_TIME);	// Get current time
+	currentTime = static_cast<GLfloat>(glutGet(GLUT_ELAPSED_TIME));			// Get current time
 	currentTime = currentTime * 0.001f;			// Converting to time seconds (From miliseconds)
 
 	glutPostRedisplay();
 }
 
+/// Generates Textures 
+/// Argument: Void
+/// Return Type: GLint
 GLint CGameManager::GenerateTextures()
 {
 	// Texture One
@@ -228,8 +262,6 @@ GLint CGameManager::GenerateTextures()
 	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 1);
 
-
-
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
@@ -238,6 +270,9 @@ GLint CGameManager::GenerateTextures()
 	return (0);
 }
 
+/// Main function of CGameManager
+/// Argument: Void
+/// Return Type: Void
 void CGameManager::ManagerMain()
 {
 	/// Register callbacks

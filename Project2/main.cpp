@@ -1,3 +1,16 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2020 Media Design School
+//
+// File Name   : main.cpp
+// Description : Main
+// Author      : Andrew Barnes
+// Mail        : andrew.bar8456@mediadesign.school.nz
+//
 #pragma once
 
 #include <glew.h>
@@ -14,7 +27,9 @@
 #include "CObject.h"
 #include "ShaderLoader.h"
 
-
+/// Runs the main fuc of program
+/// Argument: Program pointer
+/// Return Type: int
 int main(int argc, char** argv)
 {
 	CGameManager mainGameManager(argc, argv);
